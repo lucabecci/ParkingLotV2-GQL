@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start:dev": "ts-node-dev src/index.ts"
+  },
   "devDependencies": {
     "@types/bcrypt": "^3.0.1",
     "@types/cors": "^2.8.10",
