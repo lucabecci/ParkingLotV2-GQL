@@ -1,22 +1,26 @@
+import 'reflect-metadata'
 import express, { Application } from "express"
 import cors from 'cors'
 import { buildSchema } from "type-graphql"
 import { ApolloServer } from "apollo-server-express"
 import config from "./config"
+import Database from './database/database'
 
 class App {
     private _app: Application
-    
+    private _database: Database
     constructor(){
         this._app = express()
+        this._database = new Database()
 
         this._confDatabase()
+        this._confGraphQL(this._app)
         this._confMiddlewares()
-        this._confGraphQL
+        
     }
 
-    private _confDatabase(): void{
-        console.log("DATABASE")
+    private async _confDatabase(): Promise<void>{
+        await this._database.connection()
     }
 
     private async _confGraphQL(app: Application): Promise<void> {
