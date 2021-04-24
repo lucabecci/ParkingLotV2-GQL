@@ -1,5 +1,6 @@
 import { model, Schema, SchemaDefinition } from "mongoose";
 import Car from "./Car";
+import Lot from "./Lot";
 
 class UserSchema {
     private _def: SchemaDefinition
@@ -25,7 +26,8 @@ class UserSchema {
                 trim: true,
                 unique: true
             },
-            car: Car
+            car: Car,
+            parked: Lot
         }
         this._schema = new Schema(this._def, {timestamps: true})
     }
