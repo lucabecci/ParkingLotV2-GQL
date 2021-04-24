@@ -1,4 +1,5 @@
 import {Mongoose} from 'mongoose'
+import colors from 'colors'
 import config from '../config'
 
 class Database {
@@ -15,15 +16,14 @@ class Database {
                     useNewUrlParser:  true,
                     useUnifiedTopology: true
                 })
-                console.log("DB is connected")
+                console.log(`${colors.blue("Database")} => ${colors.blue("connected")}`)
+                break;
             }
             catch(e){
                 console.log(e)
-                console.log(`Retries left: ${retries}`)
-               await  new Promise((res) => {
-                    retries--
-                    setTimeout(res, 5000)
-                })
+                console.log(`${colors.red("Retries left")} => ${retries}`)
+                retries--
+                await new Promise((res) => {setTimeout(res, 5000)})
             }
         }
     }

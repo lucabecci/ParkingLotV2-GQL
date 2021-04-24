@@ -1,6 +1,7 @@
 import 'reflect-metadata'
 import express, { Application } from "express"
 import cors from 'cors'
+import colors from "colors"
 import { buildSchema } from "type-graphql"
 import { ApolloServer } from "apollo-server-express"
 import config from "./config"
@@ -48,7 +49,7 @@ class App {
 
     public run(): void {
         this._app.listen(config.APP.PORT, () => {
-            console.log(`Server on port: ${config.APP.PORT}`)
+            console.log(`${colors.blue("Server")}  => ${colors.blue(`${config.APP.PORT}`)}`)
         })
     }
 }
