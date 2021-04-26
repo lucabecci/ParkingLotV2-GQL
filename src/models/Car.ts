@@ -1,14 +1,16 @@
-import { model, Schema, SchemaDefinition } from "mongoose";
-import Lot from "./Lot";
-import User from "./User";
-
+import { model, Schema, SchemaDefinition, Document } from "mongoose";
+export interface ICar extends Document {
+    model_car: string,
+    patent: string,
+    owner: Schema.Types.ObjectId,
+    parked?: Schema.Types.ObjectId
+}
 class CarSchema {
     private _def: SchemaDefinition
     private _schema: Schema
-
     constructor(){
         this._def = {
-           model: {
+           model_car: {
                type: String,
                required: true,
                trim: true
@@ -18,8 +20,14 @@ class CarSchema {
                required: true,
                trim: true
            },
-           owner: User,
-           parked: Lot
+           owner: {
+            type: Schema.Types.ObjectId,
+            ref: "User"
+            },
+           parked: {
+            type: Schema.Types.ObjectId,
+            ref: "Lot"
+            },
         }
         this._schema = new Schema(this._def, {timestamps: true})
     }
@@ -31,4 +39,4 @@ class CarSchema {
 
 const schema = new CarSchema()
 
-export default model("Car", schema.instance())
+export default model<ICar>("Car", schema.instance())

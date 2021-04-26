@@ -1,42 +1,30 @@
-import { model, Schema, SchemaDefinition } from "mongoose";
-import Car from "./Car";
-import Lot from "./Lot";
+import { Field, ObjectType } from "type-graphql";
+import { prop } from "@typegoose/typegoose";
 
-class UserSchema {
-    private _def: SchemaDefinition
-    private _schema: Schema
+@ObjectType()
+class User {
+    @Field()
+    @prop({required: true, maxlength: 20, minlength: 5})
+    username!: string;
 
-    constructor(){
-        this._def = {
-            email: {
-                type: String,
-                required: true,
-                trim: true,
-                unique: true
-            },
-            username: {
-                type: String,
-                required: true,
-                trim: true,
-                unique: true
-            },
-            oauth_id: {
-                type: String,
-                required: true,
-                trim: true,
-                unique: true
-            },
-            car: Car,
-            parked: Lot
-        }
-        this._schema = new Schema(this._def, {timestamps: true})
-    }
+    @Field()
+    @prop({required: true, minlength: 5})
+    email!: string;
 
-    public instance(): Schema {
-        return this._schema
-    }
+    @prop({required: true, minlength: 8})
+    password!: string;
+
+    @prop()
+    token?: string;
+
+    @prop()
+    last_token?: string
+
+    @Field()
+    car?: undefined
+
+    @Field() 
+    lot?: undefined
 }
 
-const schema = new UserSchema()
-
-export default model("User", schema.instance())
+export default User

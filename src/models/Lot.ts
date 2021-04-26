@@ -1,6 +1,11 @@
-import { model, Schema, SchemaDefinition } from "mongoose";
-import Car from "./Car";
-import User from "./User";
+import { model, Schema, SchemaDefinition, Document } from "mongoose";
+
+export interface ILot extends Document {
+    section: string,
+    place: number,
+    car_parked: Schema.Types.ObjectId,
+    owner_moment: Schema.Types.ObjectId
+}
 class LotSchema {
     private _def: SchemaDefinition
     private _schema: Schema
@@ -19,8 +24,14 @@ class LotSchema {
                max: 50,
                min: 0
            },
-           car_parked: Car,
-           owner_moment: User
+           car_parked: {
+            type: Schema.Types.ObjectId,
+            ref: "Car"
+            },
+           owner_moment: {
+            type: Schema.Types.ObjectId,
+            ref: "User"
+            },
         }
         this._schema = new Schema(this._def, {timestamps: true})
     }
@@ -32,4 +43,4 @@ class LotSchema {
 
 const schema = new LotSchema()
 
-export default model("Lot", schema.instance())
+export default model<ILot>("Lot", schema.instance())
